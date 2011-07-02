@@ -117,6 +117,7 @@ int main()
 		printf("\n要再玩一次吗? (输入'n'或其他代表不要,'y'代表要)\n");
 		scanf("%c",&repeatflag);
 	}while(repeatflag == 'y');
+	return 0;
 }
 
 
