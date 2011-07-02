@@ -1,37 +1,37 @@
-#include <stdio.h>
+ï»¿#include <stdio.h>
 #include <stdlib.h>
 #define Maxm 30
 #define Maxn 30
 
-struct m{  // ¼ìË÷·½Ïò£¬°´´Ó¶«ÑØË³Ê±Õë·½Ïò
-	int dx; // ºáÏòÔöÁ¿
-	int dy;	// ×İÏòÔöÁ¿
+struct m{  // æ£€ç´¢æ–¹å‘ï¼ŒæŒ‰ä»ä¸œæ²¿é¡ºæ—¶é’ˆæ–¹å‘
+	int dx; // æ¨ªå‘å¢é‡
+	int dy;	// çºµå‘å¢é‡
 } move[8] = { {0,1},{1,1},{1,0},{1,-1},{0,-1},{-1,-1},{-1,0},{-1,1} }; 
 
-typedef struct qnod{ // ¶ÓÁĞµÄ½Úµã
-	int x; // ¼ÇÂ¼µ½´ïµãµÄĞĞ×ø±ê
-	int y; // ¼ÇÂ¼ÁĞ×ø±ê 
-	int pre; //µ½´ï¸ÃµãµÄ³ö·¢µãÔÚ¶ÓÁĞÖĞµÄÏÂ±ê
+typedef struct qnod{ // é˜Ÿåˆ—çš„èŠ‚ç‚¹
+	int x; // è®°å½•åˆ°è¾¾ç‚¹çš„è¡Œåæ ‡
+	int y; // è®°å½•åˆ—åæ ‡ 
+	int pre; //åˆ°è¾¾è¯¥ç‚¹çš„å‡ºå‘ç‚¹åœ¨é˜Ÿåˆ—ä¸­çš„ä¸‹æ ‡
 }qnode;
 
-void creatmaze(int *maze,int m,int n) // ²úÉúËæ»úÊı0ºÍ1£¬½¨Á¢ÃÔ¹¬£¬mÊÇĞĞ£¬nÊÇÁĞ
+void creatmaze(int *maze,int m,int n) // äº§ç”Ÿéšæœºæ•°0å’Œ1ï¼Œå»ºç«‹è¿·å®«ï¼Œmæ˜¯è¡Œï¼Œnæ˜¯åˆ—
 {
 	int row = m+2;
 	int pol = n+2;
 	int r,p;
 
 	for ( r=0; r < row ; r++){
-		if( r == 0 || r == row -1){ // ÔÚµÚÒ»ĞĞºÍ×îºóÒ»ĞĞ¸÷Ìí¼ÓÒ»µÀÇ½(Îª1)
+		if( r == 0 || r == row -1){ // åœ¨ç¬¬ä¸€è¡Œå’Œæœ€åä¸€è¡Œå„æ·»åŠ ä¸€é“å¢™(ä¸º1)
 			for ( p = 0 ; p < pol ; p++ )
 				maze[r*Maxm+p] = 1;
 		}
 		else {
 			for ( p = 0 ; p < pol; p++){
-				if ( p == 0 || p == pol -1) //ÔÚµÚÒ»ÁĞºÍ×îºóÒ»ÁĞ Ìí¼ÓÒ»µÀÇ½
+				if ( p == 0 || p == pol -1) //åœ¨ç¬¬ä¸€åˆ—å’Œæœ€åä¸€åˆ— æ·»åŠ ä¸€é“å¢™
 					maze[r*Maxm+p] = 1;
-				else if ( r == 1 && p == 1 || r == row -2 && p == pol - 2) // (1,1)ÎªÈë¿Ú£¬(m,n)Îª³ö¿Ú£¬¸÷ÖÃÎª0
+				else if ( r == 1 && p == 1 || r == row -2 && p == pol - 2) // (1,1)ä¸ºå…¥å£ï¼Œ(m,n)ä¸ºå‡ºå£ï¼Œå„ç½®ä¸º0
 					maze[r*Maxm+p] = 0;
-				else { // ÔÚÆäËûÎ»ÖÃ²úÉúËæ»úÊı0ºÍ1
+				else { // åœ¨å…¶ä»–ä½ç½®äº§ç”Ÿéšæœºæ•°0å’Œ1
 					maze[r*Maxm+p] =rand()% 2 ;
 				}
 			}// for
@@ -42,22 +42,22 @@ void creatmaze(int *maze,int m,int n) // ²úÉúËæ»úÊı0ºÍ1£¬½¨Á¢ÃÔ¹¬£¬mÊÇĞĞ£¬nÊÇÁĞ
 int findminpath( int *maze,qnode queue[],int m , int n)
 {
 
-	int front = 0; int rear = 0; // frontÖ¸ÏòÊµ¼ÊµÄ¶ÓÊ×£¬rearÖ¸Ïò¶ÓÎ²
+	int front = 0; int rear = 0; // frontæŒ‡å‘å®é™…çš„é˜Ÿé¦–ï¼ŒrearæŒ‡å‘é˜Ÿå°¾
 	
-	int i,j,i1,j1; // ×ø±êµã(i,j)
+	int i,j,i1,j1; // åæ ‡ç‚¹(i,j)
 
-	int dir; // ·½Ïò
+	int dir; // æ–¹å‘
 
-	queue[0].x = 1; // ¶ÓÁĞ³õÊ¼»¯£¬ÎªÈë¿Úµã
+	queue[0].x = 1; // é˜Ÿåˆ—åˆå§‹åŒ–ï¼Œä¸ºå…¥å£ç‚¹
 	queue[0].y = 1;
 	queue[0].pre = -1;
 	maze [Maxm + 1] = -1;
 
-	while( !(queue[front].x ==m && queue[front].y == n)) {// ²»ÊÇ³ö¿Úµã
+	while( !(queue[front].x ==m && queue[front].y == n)) {// ä¸æ˜¯å‡ºå£ç‚¹
 		i = queue[front].x;
 		j = queue[front].y;
 
-		for(dir = 0; dir < 8; dir++){ // ½«ÁÚ½üÍ¨µÀ·Å½øÕ»
+		for(dir = 0; dir < 8; dir++){ // å°†é‚»è¿‘é€šé“æ”¾è¿›æ ˆ
 			i1 = i+move[dir].dx;
 			j1 = j+move[dir].dy;			
 			if( maze [i1 * Maxm + j1] == 0 ){
@@ -65,14 +65,14 @@ int findminpath( int *maze,qnode queue[],int m , int n)
 				queue[rear].x = i1;
 				queue[rear].y = j1;
 				queue[rear].pre = front;
-				maze [i1 * Maxm + j1] = -1; // ¶ÔÒÑ×ß¹ıµÄÎ»ÖÃ½«0¸ÄÎª-1
+				maze [i1 * Maxm + j1] = -1; // å¯¹å·²èµ°è¿‡çš„ä½ç½®å°†0æ”¹ä¸º-1
 			}
 		}
-		if(front == rear){ // Õ»¿Õ , Ê§°Ü
+		if(front == rear){ // æ ˆç©º , å¤±è´¥
 			printf("\nTHERE IS NO PATH.\n");
 			return 0;
 		}
-		else { // frontÖ¸Ïò¶ÓÁĞµÄÏÂÒ»¸öÔªËØ
+		else { // frontæŒ‡å‘é˜Ÿåˆ—çš„ä¸‹ä¸€ä¸ªå…ƒç´ 
 			front ++;
 		}
 		
@@ -93,11 +93,11 @@ int main()
 	int i,j;
 	char repeatflag;
 	int maze[Maxm][Maxn];
-	qnode queue[Maxm * Maxn];// ÓÃÓÚ±£´æÒÑµ½´ïµÄ×ø±êµã
+	qnode queue[Maxm * Maxn];// ç”¨äºä¿å­˜å·²åˆ°è¾¾çš„åæ ‡ç‚¹
 	do{
-		printf("½¨Á¢ÃÔ¹¬£¬ÇëÊäÈë³¤¶È n = ");
+		printf("å»ºç«‹è¿·å®«ï¼Œè¯·è¾“å…¥é•¿åº¦ n = ");
 		scanf("%d",&n);
-		printf("ÇëÊäÈë¸ß¶È m = ");
+		printf("è¯·è¾“å…¥é«˜åº¦ m = ");
 		scanf("%d",&m);
 		printf("\n");
 
@@ -114,7 +114,7 @@ int main()
 		findminpath ( maze[0],queue, m , n) ;
 		getchar();
 
-		printf("\nÒªÔÙÍæÒ»´ÎÂğ? (ÊäÈë'n'»òÆäËû´ú±í²»Òª,'y'´ú±íÒª)\n");
+		printf("\nè¦å†ç©ä¸€æ¬¡å—? (è¾“å…¥'n'æˆ–å…¶ä»–ä»£è¡¨ä¸è¦,'y'ä»£è¡¨è¦)\n");
 		scanf("%c",&repeatflag);
 	}while(repeatflag == 'y');
 }
