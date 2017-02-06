@@ -97,8 +97,14 @@ int main()
 	do{
 		printf("建立迷宫，请输入长度 n = ");
 		scanf("%d",&n);
+        if (n > Maxn) {
+            abort();
+        }
 		printf("请输入高度 m = ");
 		scanf("%d",&m);
+        if (m > Maxm) {
+            abort();
+        }
 		printf("\n");
 
 		creatmaze(maze[0],m,n);
